@@ -27,7 +27,7 @@ Route::post('/login',[AuthController::class,'login']);
 Route::post('/register',[AuthController::class,'store']);
 
 
-Route::group(['prefix' => 'admin','middleware' => ['auth:sanctum','role:admin']], function (){
+Route::group(['prefix' => 'admin','middleware' => ['auth:sanctum','role:superadmin']], function (){
     Route::apiResource('courses',CourseController::class);
     Route::apiResource('course_plans',CoursePlanController::class);
     Route::apiResource('course_subjects',CourseSubjectController::class);
