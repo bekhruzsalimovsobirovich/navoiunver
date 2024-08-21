@@ -33,6 +33,8 @@ Route::group(['prefix' => 'admin','middleware' => ['auth:sanctum','role:superadm
     Route::apiResource('course_subjects',CourseSubjectController::class);
     Route::apiResource('lessons',LessonController::class);
     Route::get('course_plan/all',[CoursePlanController::class,'getAll']);
+    Route::get('find/course_plan/with/{course_id}/course',[CoursePlanController::class,'findCoursePlanWithCourseId']);
+    Route::get('find/course_subject/with/{course_id}/course/{course_plan_id}/course_plan',[CourseSubjectController::class,'findCourseSubjectWithCourseIdCoursePlanId']);
     Route::get('course_subject/all',[CourseSubjectController::class,'getAll']);
     Route::get('course/all',[CourseController::class,'getAll']);
 });

@@ -93,4 +93,9 @@ class CourseSubjectController extends Controller
         $course_subject->delete();
         return $this->successResponse('Course subject deleted successfully');
     }
+
+    public function findCourseSubjectWithCourseIdCoursePlanId($course_id,$course_plan_id)
+    {
+        return $this->successResponse('ok',$this->course_subjects->findCourseSubjectWithCourseIdCoursePlanId($course_id,$course_plan_id));
+    }
 }

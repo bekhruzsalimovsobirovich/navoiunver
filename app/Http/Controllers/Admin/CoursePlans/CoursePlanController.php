@@ -92,4 +92,9 @@ class CoursePlanController extends Controller
         $course_plan->delete();
         return $this->successResponse('Course plan deleted successfully');
     }
+
+    public function findCoursePlanWithCourseId($course_id)
+    {
+        return $this->successResponse('ok',$this->course_plans->findCoursePlanWithCourseId($course_id));
+    }
 }

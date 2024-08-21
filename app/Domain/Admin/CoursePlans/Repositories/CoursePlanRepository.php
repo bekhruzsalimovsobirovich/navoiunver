@@ -30,4 +30,15 @@ class CoursePlanRepository
             ->orderByDesc('id')
             ->get();
     }
+
+    /**
+     * @param $course_id
+     * @return Builder[]|Collection
+     */
+    public function findCoursePlanWithCourseId($course_id): Collection|array
+    {
+        return CoursePlan::query()
+            ->where('course_id',$course_id)
+            ->get();
+    }
 }
