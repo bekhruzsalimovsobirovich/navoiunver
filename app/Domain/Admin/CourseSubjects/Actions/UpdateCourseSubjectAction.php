@@ -28,6 +28,7 @@ class UpdateCourseSubjectAction
             $course_subject->course_plan_id = $dto->getCoursePlanId();
             $course_subject->name = $dto->getName();
             $course_subject->update();
+            $course_subject->load('course','course_plan');
         } catch (Exception $exception) {
             DB::rollBack();
             throw $exception;

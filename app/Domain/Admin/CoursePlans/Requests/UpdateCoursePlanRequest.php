@@ -23,7 +23,7 @@ class UpdateCoursePlanRequest extends FormRequest
     {
         return [
             'course_id' => 'required',
-            'name' => 'required|string|unique:course_plans,name',
+            'name' => 'required|string',
             'course_plan' => 'sometimes|json'
         ];
     }

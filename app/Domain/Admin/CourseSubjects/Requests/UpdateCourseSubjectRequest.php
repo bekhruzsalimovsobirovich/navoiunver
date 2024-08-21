@@ -24,7 +24,7 @@ class UpdateCourseSubjectRequest extends FormRequest
         return [
             'course_id' => 'required',
             'course_plan_id' => 'required',
-            'name' => 'required|string|unique:course_subjects,name',
+            'name' => 'required',
             'course_subject' => 'sometimes|json'
         ];
     }
