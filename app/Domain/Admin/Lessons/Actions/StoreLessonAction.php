@@ -28,9 +28,9 @@ class StoreLessonAction
 
             $types = ['lesson', 'video', 'electron', 'crossword'];
 
-            foreach (request()->file('files') as $key => $file) {
-                if (isset($types[$key])) {
-                    $type = $types[$key];
+            foreach ($types as $key => $type) {
+                if (request()->hasFile("files.$key")) {
+                    $file = request()->file("files.$key");
 
                     $filename = Str::random(6) . '_' . time() . '.' . $file->getClientOriginalExtension();
                     $file->storeAs('public/files/lessons', $filename);
