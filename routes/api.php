@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\Courses\CourseController;
 use App\Http\Controllers\Admin\CourseSubjects\CourseSubjectController;
 use App\Http\Controllers\Admin\Lessons\LessonController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Users\Lesson\LessonUserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -38,4 +39,8 @@ Route::group(['prefix' => 'admin','middleware' => ['auth:sanctum','role:superadm
     Route::get('find/course_subject/with/{course_id}/course/{course_plan_id}/course_plan',[CourseSubjectController::class,'findCourseSubjectWithCourseIdCoursePlanId']);
     Route::get('course_subject/all',[CourseSubjectController::class,'getAll']);
     Route::get('course/all',[CourseController::class,'getAll']);
+});
+
+Route::group(['prefix' => 'student','middleware' => ['auth:sanctum','role:user']], function (){
+    Route::get('lesson/{lesson}/read',[LessonUserController::class,'store']);
 });
