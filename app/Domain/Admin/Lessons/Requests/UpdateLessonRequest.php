@@ -26,7 +26,7 @@ class UpdateLessonRequest extends FormRequest
             'course_plan_id' => 'required',
             'course_subject_id' => 'required',
             'date' => 'required',
-            'files.*' => 'sometimes|mimes:jpg,jpeg,png,pdf,docx,mp4,mpeg,avi,zip,rar|max:204800',
+            'files.*' => 'sometimes|max:204800',
             'lesson' => 'sometimes|json'
         ];
     }
