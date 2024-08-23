@@ -28,39 +28,25 @@ class UpdateLessonAction
             $lesson->date = $dto->getDate();
             $lesson->update();
 
-            if (isset(request()->files)) {
-                $types = ['lesson', 'video', 'electron', 'crossword'];
+            $currentFile = \App\Domain\Admin\Files\Models\File::query()->find(request()->file_id);
+            if (isset(request()->file)) {
+                File::delete('storage/files/lessons/' . $currentFile->filename);
+                $file = request()->file;
+                $filename = Str::random(4) . '_' . time() . '.' . $file->getClientOriginalExtension();
+                $file->storeAs('public/files/lessons', $filename);
+                $path = url('storage/files/lessons/' . $filename);
 
-                foreach ($types as $key => $type) {
-                    // Check if a file of the current type exists in the request
-                    if (request()->hasFile("files.$key")) {
-                        $file = request()->file("files.$key");
-
-                        $existingFile = $lesson->files->where('type', $type)->first();
-
-                        // Check if the file exists before attempting to delete it
-                        if ($existingFile) {
-                            File::delete('storage/files/lessons/' . $existingFile->filename);
-                            \App\Domain\Admin\Files\Models\File::query()->find($existingFile->id)->delete();
-                        }
-
-                        $filename = Str::random(4) . '_' . time() . '.' . $file->getClientOriginalExtension();
-                        $file->storeAs('public/files/lessons', $filename);
-                        $path = url('storage/files/lessons/' . $filename);
-
-                        $lesson->files()->create([
-                            'filename' => $filename,
-                            'path' => $path,
-                            'type' => $type
-                        ]);
-                    }
-                }
+                $currentFile->filename = $filename;
+                $currentFile->path = $path;
+                $currentFile->update();
             }
             $lesson->load('course', 'course_plan', 'course_subject');
+
         } catch (Exception $exception) {
             DB::rollBack();
             throw $exception;
         }
+
         DB::commit();
         return $lesson;
     }

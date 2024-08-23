@@ -14,6 +14,7 @@ use App\Domain\Admin\Lessons\Resources\LessonResource;
 use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 
 class LessonController extends Controller
@@ -45,7 +46,6 @@ class LessonController extends Controller
     public function store(StoreLessonRequest $request, StoreLessonAction $action)
     {
         try {
-            Log::info('Store Request: ', $request->all());
             $dto = StoreLessonDTO::fromArray($request->validated());
             $response = $action->execute($dto);
             return $this->successResponse('Lesson created successfully.', $response);
@@ -68,7 +68,6 @@ class LessonController extends Controller
     public function update(UpdateLessonRequest $request, Lesson $lesson, UpdateLessonAction $action)
     {
         try {
-            Log::info('Update Request: ', $request->all());
             $request->validated();
             $request->merge([
                 'lesson' => $lesson
@@ -84,9 +83,15 @@ class LessonController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Lesson $lesson)
     {
-        //
+        foreach ($lesson->files as $file){
+            File::delete('storage/files/lessons/' . $file->filename);
+        }
+        \App\Domain\Admin\Files\Models\File::query()->where('fileable_id',$lesson->id)->delete();
+        $lesson->delete();
+
+        return $this->successResponse('Lesson deleted successfully.');
     }
 
     public function updateStatus(Lesson $lesson)
