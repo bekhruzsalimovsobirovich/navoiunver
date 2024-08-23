@@ -29,12 +29,12 @@ class UpdateLessonAction
             $lesson->update();
 
             if (isset(request()->files)) {
-                $types = ['lesson', 'video', 'electron', 'crossword'];
+//                $types = ['lesson', 'video', 'electron', 'crossword'];
 
-                foreach (request()->file('files') as $key => $file) {
-                    if (isset($types[$key])) {
-                        $type = $types[$key];
-                        $existingFile = $lesson->files->where('type', $type)->first();
+                foreach (request()->files as $key => $file) {
+//                    if (isset($types[$key])) {
+//                        $type = $types[$key];
+                        $existingFile = $lesson->files->where('type', $key)->first();
 
                         // Check if the file exists before attempting to delete it
                         if ($existingFile) {
@@ -49,9 +49,9 @@ class UpdateLessonAction
                         $lesson->files()->create([
                             'filename' => $filename,
                             'path' => $path,
-                            'type' => $type
+                            'type' => $key
                         ]);
-                    }
+//                    }
                 }
             }
             $lesson->load('course', 'course_plan', 'course_subject');
