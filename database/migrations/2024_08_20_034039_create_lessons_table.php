@@ -23,7 +23,7 @@ return new class extends Migration
             $table->foreignIdFor(CourseSubject::class)
                 ->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->dateTime('date');
-            $table->boolean('status')->default(false)->comment('show to the user');
+            $table->boolean('status')->default(true)->comment('show to the user');
             $table->timestamps();
         });
     }

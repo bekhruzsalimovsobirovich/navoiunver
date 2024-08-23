@@ -49,7 +49,7 @@ class StoreLessonAction
                     'type' => $type
                 ]);
             }
-
+            $lesson->load('course','course_plan','course_subject');
         } catch (Exception $exception) {
             DB::rollBack();
             throw $exception;

@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Admin\Lessons;
 
 use App\Domain\Admin\Lessons\Actions\StoreLessonAction;
 use App\Domain\Admin\Lessons\DTO\StoreLessonDTO;
+use App\Domain\Admin\Lessons\Models\Lesson;
 use App\Domain\Admin\Lessons\Repositories\LessonRepository;
 use App\Domain\Admin\Lessons\Requests\StoreLessonRequest;
 use App\Domain\Admin\Lessons\Resources\LessonResource;
 use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class LessonController extends Controller
 {
@@ -40,14 +42,10 @@ class LessonController extends Controller
     public function store(StoreLessonRequest $request, StoreLessonAction $action)
     {
         try {
+            Log::info('Files: ',$request->all());
             $dto = StoreLessonDTO::fromArray($request->validated());
             $response = $action->execute($dto);
-//            return $this->successResponse('Lesson created successfully.', $response);
-            return response()
-                ->json([
-                    'data' => $response,
-                    'files' => $request->files
-                ]);
+            return $this->successResponse('Lesson created successfully.', $response);
         } catch (Exception $exception) {
             return $this->errorResponse($exception->getMessage());
         }
@@ -75,5 +73,13 @@ class LessonController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function updateStatus(Lesson $lesson)
+    {
+        $lesson->status = !$lesson->status;
+        $lesson->update();
+
+        return $this->successResponse('Status updated successfully.');
     }
 }
