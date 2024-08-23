@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Admin\Lessons;
 
 use App\Domain\Admin\Lessons\Actions\StoreLessonAction;
+use App\Domain\Admin\Lessons\Actions\UpdateLessonAction;
 use App\Domain\Admin\Lessons\DTO\StoreLessonDTO;
+use App\Domain\Admin\Lessons\DTO\UpdateLessonDTO;
 use App\Domain\Admin\Lessons\Models\Lesson;
 use App\Domain\Admin\Lessons\Repositories\LessonRepository;
 use App\Domain\Admin\Lessons\Requests\StoreLessonRequest;
+use App\Domain\Admin\Lessons\Requests\UpdateLessonRequest;
 use App\Domain\Admin\Lessons\Resources\LessonResource;
 use App\Http\Controllers\Controller;
 use Exception;
@@ -42,7 +45,6 @@ class LessonController extends Controller
     public function store(StoreLessonRequest $request, StoreLessonAction $action)
     {
         try {
-            Log::info('Files: ',$request->all());
             $dto = StoreLessonDTO::fromArray($request->validated());
             $response = $action->execute($dto);
             return $this->successResponse('Lesson created successfully.', $response);
@@ -62,9 +64,19 @@ class LessonController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateLessonRequest $request, Lesson $lesson, UpdateLessonAction $action)
     {
-        //
+        try {
+            $request->validated();
+            $request->merge([
+                'lesson' => $lesson
+            ]);
+            $dto = UpdateLessonDTO::fromArray($request->all());
+            $response = $action->execute($dto);
+            return $this->successResponse('Lesson updated successfully.', $response);
+        } catch (Exception $exception) {
+            return $this->errorResponse($exception->getMessage());
+        }
     }
 
     /**

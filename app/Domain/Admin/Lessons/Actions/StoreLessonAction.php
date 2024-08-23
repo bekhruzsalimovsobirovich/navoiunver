@@ -26,28 +26,22 @@ class StoreLessonAction
             $lesson->date = $dto->getDate();
             $lesson->save();
 
-            // Store each file
+            $types = ['lesson', 'video', 'electron', 'crossword'];
+
             foreach (request()->file('files') as $key => $file) {
+                if (isset($types[$key])) {
+                    $type = $types[$key];
 
-                if ($key == 0) {
-                    $type = 'lesson';
-                } elseif ($key == 1) {
-                    $type = 'video';
-                } elseif ($key == 2) {
-                    $type = 'electron';
-                } elseif ($key == 3) {
-                    $type = 'crossword';
+                    $filename = Str::random(4) . '_' . time() . '.' . $file->getClientOriginalExtension();
+                    $file->storeAs('public/files/lessons', $filename);
+                    $path = url('storage/files/lessons/' . $filename);
+
+                    $lesson->files()->create([
+                        'filename' => $filename,
+                        'path' => $path,
+                        'type' => $type,
+                    ]);
                 }
-
-                $file_req = $file;
-                $filename = Str::random(4) . '_' . time() . '.' . $file_req->getClientOriginalExtension();
-                $file_req->storeAs('public/files/lessons', $filename);
-                $path = url('storage/files/lessons/' . $filename);
-                $lesson->files()->create([
-                    'filename' => $filename,
-                    'path' => $path,
-                    'type' => $type
-                ]);
             }
             $lesson->load('course','course_plan','course_subject');
         } catch (Exception $exception) {
