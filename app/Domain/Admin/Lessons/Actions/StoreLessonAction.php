@@ -32,7 +32,7 @@ class StoreLessonAction
                 if (isset($types[$key])) {
                     $type = $types[$key];
 
-                    $filename = Str::random(4) . '_' . time() . '.' . $file->getClientOriginalExtension();
+                    $filename = Str::random(6) . '_' . time() . '.' . $file->getClientOriginalExtension();
                     $file->storeAs('public/files/lessons', $filename);
                     $path = url('storage/files/lessons/' . $filename);
 

@@ -45,6 +45,7 @@ class LessonController extends Controller
     public function store(StoreLessonRequest $request, StoreLessonAction $action)
     {
         try {
+            Log::info('Store Request: ', $request->all());
             $dto = StoreLessonDTO::fromArray($request->validated());
             $response = $action->execute($dto);
             return $this->successResponse('Lesson created successfully.', $response);
@@ -67,6 +68,7 @@ class LessonController extends Controller
     public function update(UpdateLessonRequest $request, Lesson $lesson, UpdateLessonAction $action)
     {
         try {
+            Log::info('Update Request: ', $request->all());
             $request->validated();
             $request->merge([
                 'lesson' => $lesson
