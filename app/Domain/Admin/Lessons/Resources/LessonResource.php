@@ -15,10 +15,11 @@ class LessonResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'course' => $this->course->name,
-            'course_plan' => $this->course_plan->name,
-            'course_subject' => $this->course_subject->name,
+            'course' => $this->course,
+            'course_plan' => $this->course_plan,
+            'course_subject' => $this->course_subject,
             'date' => $this->date,
+            'status' => $this->status,
             'files' => $this->files,
         ];
     }

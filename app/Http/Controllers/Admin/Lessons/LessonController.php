@@ -31,7 +31,7 @@ class LessonController extends Controller
      */
     public function index()
     {
-        return $this->successResponse('ok', LessonResource::collection($this->lessons->paginate()));
+        return LessonResource::collection($this->lessons->paginate());
     }
 
     /**
@@ -42,7 +42,12 @@ class LessonController extends Controller
         try {
             $dto = StoreLessonDTO::fromArray($request->validated());
             $response = $action->execute($dto);
-            return $this->successResponse('Lesson created successfully.', $response);
+//            return $this->successResponse('Lesson created successfully.', $response);
+            return response()
+                ->json([
+                    'data' => $response,
+                    'files' => $request->files
+                ]);
         } catch (Exception $exception) {
             return $this->errorResponse($exception->getMessage());
         }
