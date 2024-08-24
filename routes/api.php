@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Controls\ControlController;
 use App\Http\Controllers\Admin\CoursePlans\CoursePlanController;
 use App\Http\Controllers\Admin\Courses\CourseController;
 use App\Http\Controllers\Admin\CourseSubjects\CourseSubjectController;
@@ -33,6 +34,8 @@ Route::group(['prefix' => 'admin','middleware' => ['auth:sanctum','role:superadm
     Route::apiResource('course_plans',CoursePlanController::class);
     Route::apiResource('course_subjects',CourseSubjectController::class);
     Route::apiResource('lessons',LessonController::class);
+    Route::apiResource('controls',ControlController::class);
+    Route::get('control/all',[ControlController::class,'getAll']);
     Route::get('lesson/update/status/{lesson}',[LessonController::class,'updateStatus']);
     Route::get('course_plan/all',[CoursePlanController::class,'getAll']);
     Route::get('find/course_plan/with/{course_id}/course',[CoursePlanController::class,'findCoursePlanWithCourseId']);
