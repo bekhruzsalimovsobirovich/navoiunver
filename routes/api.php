@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\CoursePlans\CoursePlanController;
 use App\Http\Controllers\Admin\Courses\CourseController;
 use App\Http\Controllers\Admin\CourseSubjects\CourseSubjectController;
 use App\Http\Controllers\Admin\Lessons\LessonController;
+use App\Http\Controllers\Admin\Questions\QuestionController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Users\Lesson\LessonUserController;
 use Illuminate\Http\Request;
@@ -35,6 +36,8 @@ Route::group(['prefix' => 'admin','middleware' => ['auth:sanctum','role:superadm
     Route::apiResource('course_subjects',CourseSubjectController::class);
     Route::apiResource('lessons',LessonController::class);
     Route::apiResource('controls',ControlController::class);
+    Route::apiResource('questions',QuestionController::class);
+    Route::get('question/all',[QuestionController::class,'getAll']);
     Route::get('control/all',[ControlController::class,'getAll']);
     Route::get('lesson/update/status/{lesson}',[LessonController::class,'updateStatus']);
     Route::get('course_plan/all',[CoursePlanController::class,'getAll']);
