@@ -10,7 +10,7 @@ class Control extends Model
 {
     use HasFactory;
 
-    protected $perPage = 20;
+    protected $perPage = 30;
 
     public function files()
     {

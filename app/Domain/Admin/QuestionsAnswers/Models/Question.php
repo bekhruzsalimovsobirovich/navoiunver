@@ -21,7 +21,7 @@ class Question extends Model
         'active',
     ];
 
-    protected $perPage = 20;
+    protected $perPage = 30;
 
     /**
      * @return BelongsTo
