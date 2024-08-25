@@ -1,6 +1,6 @@
 <?php
 
-use App\Domain\Admin\Controls\Models\Control;
+use App\Domain\Admin\QuestionsAnswers\Models\Question;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,13 +12,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('questions', function (Blueprint $table) {
+        Schema::create('answers', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Control::class)
+            $table->foreignIdFor(Question::class)
                 ->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->text('name');
-            $table->enum('status',['low','middle','high']);
-            $table->boolean('active');
+            $table->text('text');
+            $table->boolean('correct')->default(false);
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('questions');
+        Schema::dropIfExists('answers');
     }
 };

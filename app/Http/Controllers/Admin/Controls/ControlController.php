@@ -6,6 +6,7 @@ use App\Domain\Admin\Controls\Actions\StoreControlAction;
 use App\Domain\Admin\Controls\DTO\StoreControlDTO;
 use App\Domain\Admin\Controls\Repositories\ControlRepository;
 use App\Domain\Admin\Controls\Requests\StoreControlRequest;
+use App\Domain\Admin\Controls\Resources\ControlResource;
 use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -31,7 +32,7 @@ class ControlController extends Controller
      */
     public function index()
     {
-        return $this->successResponse('ok', $this->controls->paginate());
+        return ControlResource::collection($this->controls->paginate());
     }
 
     /**

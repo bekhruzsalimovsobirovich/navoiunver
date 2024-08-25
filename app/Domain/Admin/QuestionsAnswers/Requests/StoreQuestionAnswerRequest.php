@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Domain\Admin\Questions\Requests;
+namespace App\Domain\Admin\QuestionsAnswers\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreQuestionRequest extends FormRequest
+class StoreQuestionAnswerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,8 +23,12 @@ class StoreQuestionRequest extends FormRequest
     {
         return [
             'control_id' => 'required',
-            'name' => 'required|unique:questions,name',
-            'status' => 'required',
+            'low' => 'required',
+            'middle' => 'required',
+//            'high' => 'required',
+            'low.*' => 'required|array',
+            'middle.*' => 'required|array',
+//            'high.*' => 'required|array'
         ];
     }
 }
