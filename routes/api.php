@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\Lessons\LessonController;
 use App\Http\Controllers\Admin\QuestionsAnswers\QuestionAnswerController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Users\Lesson\LessonUserController;
+use App\Http\Controllers\Users\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -43,6 +44,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth:sanctum','role:superadm
     Route::get('find/course_subject/with/{course_id}/course/{course_plan_id}/course_plan',[CourseSubjectController::class,'findCourseSubjectWithCourseIdCoursePlanId']);
     Route::get('course_subject/all',[CourseSubjectController::class,'getAll']);
     Route::get('course/all',[CourseController::class,'getAll']);
+    Route::get('users',[UserController::class,'index']);
 
     Route::get('questions/with/answers/{control_id}/control',[QuestionAnswerController::class,'index']);
     Route::post('questions/with/answers',[QuestionAnswerController::class,'store']);

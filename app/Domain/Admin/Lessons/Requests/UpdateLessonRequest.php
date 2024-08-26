@@ -22,12 +22,12 @@ class UpdateLessonRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'file_id' => 'sometimes|integer',
+            'file_id.*' => 'sometimes',
             'course_id' => 'required',
             'course_plan_id' => 'required',
             'course_subject_id' => 'required',
             'date' => 'required',
-            'file' => 'sometimes|file|mimes:jpg,jpeg,png,pdf,docx,mp4,mpeg,avi,zip,rar|max:204800',
+            'files.*' => 'sometimes|file|mimes:jpg,jpeg,png,pdf,docx,mp4,mpeg,avi,zip,rar|max:204800',
             'lesson' => 'sometimes|json'
         ];
     }

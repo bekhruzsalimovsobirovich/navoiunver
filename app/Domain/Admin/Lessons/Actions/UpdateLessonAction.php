@@ -28,18 +28,26 @@ class UpdateLessonAction
             $lesson->date = $dto->getDate();
             $lesson->update();
 
-            $currentFile = \App\Domain\Admin\Files\Models\File::query()->find(request()->file_id);
-            if (isset(request()->file)) {
-                File::delete('storage/files/lessons/' . $currentFile->filename);
-                $file = request()->file;
-                $filename = Str::random(4) . '_' . time() . '.' . $file->getClientOriginalExtension();
-                $file->storeAs('public/files/lessons', $filename);
-                $path = url('storage/files/lessons/' . $filename);
+            if (isset(request()->files)) {
+                foreach (request()->files as $file) {
+                    foreach ($file as $key => $fl){
 
-                $currentFile->filename = $filename;
-                $currentFile->path = $path;
-                $currentFile->update();
+                        if (request()->hasFile("files.$key")) {
+                            $file = request()->file("files.$key");
+                            $currentFile = \App\Domain\Admin\Files\Models\File::query()->find(request()->file_id[$key]);
+                            File::delete('storage/files/lessons/' . $currentFile->filename);
+                            $filename = Str::random(6) . '_' . time() . '.' . $file->getClientOriginalExtension();
+                            $file->storeAs('public/files/lessons', $filename);
+                            $path = url('storage/files/lessons/' . $filename);
+                            $currentFile->filename = $filename;
+                            $currentFile->path = $path;
+                            $currentFile->update();
+
+                        }
+                    }
+                }
             }
+
             $lesson->load('course', 'course_plan', 'course_subject');
 
         } catch (Exception $exception) {
