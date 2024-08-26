@@ -44,8 +44,12 @@ class StoreQuestionAnswerAction
             };
 
             // Save low and middle questions
-            $saveQuestion($dto->getLow(), 'low');
-            $saveQuestion($dto->getMiddle(), 'middle');
+            if($dto->getLow()){
+                $saveQuestion($dto->getLow(), 'low');
+            }
+            if($dto->getMiddle()){
+                $saveQuestion($dto->getMiddle(), 'middle');
+            }
 
             DB::commit();
             return $savedQuestions;

@@ -23,11 +23,11 @@ class StoreQuestionAnswerRequest extends FormRequest
     {
         return [
             'control_id' => 'required',
-            'low' => 'required',
-            'middle' => 'required',
+            'low' => 'sometimes',
+            'middle' => 'sometimes',
 //            'high' => 'required',
-            'low.*' => 'required|array',
-            'middle.*' => 'required|array',
+            'low.*' => 'sometimes|array',
+            'middle.*' => 'sometimes|array',
 //            'high.*' => 'required|array'
         ];
     }

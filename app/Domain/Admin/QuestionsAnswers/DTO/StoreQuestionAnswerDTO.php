@@ -10,14 +10,14 @@ class StoreQuestionAnswerDTO
     private int $control_id;
 
     /**
-     * @var array
+     * @var array|null
      */
-    private array $low;
+    private ?array $low=null;
 
     /**
-     * @var array
+     * @var array|null
      */
-    private array $middle;
+    private ?array $middle=null;
 
 //    /**
 //     * @var array
@@ -32,8 +32,8 @@ class StoreQuestionAnswerDTO
     {
         $dto = new self();
         $dto->setControlId($data['control_id']);
-        $dto->setLow($data['low']);
-        $dto->setMiddle($data['middle']);
+        $dto->setLow($data['low'] ?? null);
+        $dto->setMiddle($data['middle'] ?? null);
 //        $dto->setHigh($data['high']);
 
         return $dto;
@@ -56,50 +56,34 @@ class StoreQuestionAnswerDTO
     }
 
     /**
-     * @return array
+     * @return array|null
      */
-    public function getLow(): array
+    public function getLow(): ?array
     {
         return $this->low;
     }
 
     /**
-     * @param array $low
+     * @param array|null $low
      */
-    public function setLow(array $low): void
+    public function setLow(?array $low): void
     {
         $this->low = $low;
     }
 
     /**
-     * @return array
+     * @return array|null
      */
-    public function getMiddle(): array
+    public function getMiddle(): ?array
     {
         return $this->middle;
     }
 
     /**
-     * @param array $middle
+     * @param array|null $middle
      */
-    public function setMiddle(array $middle): void
+    public function setMiddle(?array $middle): void
     {
         $this->middle = $middle;
     }
-
-//    /**
-//     * @return array
-//     */
-//    public function getHigh(): array
-//    {
-//        return $this->high;
-//    }
-//
-//    /**
-//     * @param array $high
-//     */
-//    public function setHigh(array $high): void
-//    {
-//        $this->high = $high;
-//    }
 }
