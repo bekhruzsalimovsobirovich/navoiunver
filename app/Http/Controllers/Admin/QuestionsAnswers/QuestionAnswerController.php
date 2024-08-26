@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\QuestionsAnswers;
 
 use App\Domain\Admin\QuestionsAnswers\Actions\StoreQuestionAnswerAction;
 use App\Domain\Admin\QuestionsAnswers\DTO\StoreQuestionAnswerDTO;
+use App\Domain\Admin\QuestionsAnswers\Models\Question;
 use App\Domain\Admin\QuestionsAnswers\Repositories\QuestionAnswerRepository;
 use App\Domain\Admin\QuestionsAnswers\Requests\StoreQuestionAnswerRequest;
 use App\Http\Controllers\Controller;
@@ -29,7 +30,7 @@ class QuestionAnswerController extends Controller
      */
     public function index($control_id)
     {
-        return $this->successResponse('',$this->questionsAnswers->getAll($control_id));
+        return $this->successResponse('', $this->questionsAnswers->getAll($control_id));
     }
 
     /**
@@ -44,5 +45,25 @@ class QuestionAnswerController extends Controller
         } catch (Exception $exception) {
             return $this->errorResponse($exception->getMessage());
         }
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function update(StoreQuestionAnswerRequest $request, StoreQuestionAnswerAction $action)
+    {
+        try {
+            $dto = StoreQuestionAnswerDTO::fromArray($request->validated());
+            $response = $action->update($dto);
+            return $this->successResponse('Question updated successfully.', $response);
+        } catch (Exception $exception) {
+            return $this->errorResponse($exception->getMessage());
+        }
+    }
+
+    public function destroy(Question $question)
+    {
+        $question->delete();
+        return $this->successResponse('Question and their answers deleted successfully.');
     }
 }

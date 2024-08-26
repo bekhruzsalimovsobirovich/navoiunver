@@ -46,6 +46,8 @@ Route::group(['prefix' => 'admin','middleware' => ['auth:sanctum','role:superadm
 
     Route::get('questions/with/answers/{control_id}/control',[QuestionAnswerController::class,'index']);
     Route::post('questions/with/answers',[QuestionAnswerController::class,'store']);
+    Route::post('questions/with/answers/update',[QuestionAnswerController::class,'update']);
+    Route::delete('questions/with/answers/delete/{question}',[QuestionAnswerController::class,'destroy']);
 });
 
 Route::group(['prefix' => 'student','middleware' => ['auth:sanctum','role:user']], function (){
