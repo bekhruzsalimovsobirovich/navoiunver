@@ -30,18 +30,31 @@ class UpdateLessonAction
 
             if (isset(request()->files)) {
                 foreach (request()->files as $file) {
-                    foreach ($file as $key => $fl){
+                    foreach ($file as $key => $fl) {
 
                         if (request()->hasFile("files.$key")) {
                             $file = request()->file("files.$key");
                             $currentFile = \App\Domain\Admin\Files\Models\File::query()->find(request()->file_id[$key]);
-                            File::delete('storage/files/lessons/' . $currentFile->filename);
-                            $filename = Str::random(6) . '_' . time() . '.' . $file->getClientOriginalExtension();
-                            $file->storeAs('public/files/lessons', $filename);
-                            $path = url('storage/files/lessons/' . $filename);
-                            $currentFile->filename = $filename;
-                            $currentFile->path = $path;
-                            $currentFile->update();
+                            if ($currentFile != null) {
+
+                                File::delete('storage/files/lessons/' . $currentFile->filename);
+                                $filename = Str::random(6) . '_' . time() . '.' . $file->getClientOriginalExtension();
+                                $file->storeAs('public/files/lessons', $filename);
+                                $path = url('storage/files/lessons/' . $filename);
+                                $currentFile->filename = $filename;
+                                $currentFile->path = $path;
+                                $currentFile->update();
+                            } else {
+                                $filename = Str::random(6) . '_' . time() . '.' . $file->getClientOriginalExtension();
+                                $file->storeAs('public/files/lessons', $filename);
+                                $path = url('storage/files/lessons/' . $filename);
+
+                                $lesson->files()->create([
+                                    'filename' => $filename,
+                                    'path' => $path,
+                                    'type' => 'lesson',
+                                ]);
+                            }
 
                         }
                     }
