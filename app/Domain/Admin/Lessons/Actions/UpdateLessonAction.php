@@ -28,43 +28,43 @@ class UpdateLessonAction
             $lesson->date = $dto->getDate();
             $lesson->update();
 
-            if (isset(request()->files)) {
-                foreach (request()->files as $file) {
-                    foreach ($file as $key => $fl) {
-
-                        if (request()->hasFile("files.$key")) {
-                            $file = request()->file("files.$key");
-                            if(isset(request()->file_id[$key])){
-
-                            $currentFile = \App\Domain\Admin\Files\Models\File::query()->find(request()->file_id[$key]);
-                            }else{
-                                $currentFile=null;
-                            }
-                            if ($currentFile != null) {
-
-                                File::delete('storage/files/lessons/' . $currentFile->filename);
-                                $filename = Str::random(6) . '_' . time() . '.' . $file->getClientOriginalExtension();
-                                $file->storeAs('public/files/lessons', $filename);
-                                $path = url('storage/files/lessons/' . $filename);
-                                $currentFile->filename = $filename;
-                                $currentFile->path = $path;
-                                $currentFile->update();
-                            } else {
-                                $filename = Str::random(6) . '_' . time() . '.' . $file->getClientOriginalExtension();
-                                $file->storeAs('public/files/lessons', $filename);
-                                $path = url('storage/files/lessons/' . $filename);
-
-                                $lesson->files()->create([
-                                    'filename' => $filename,
-                                    'path' => $path,
-                                    'type' => 'lesson',
-                                ]);
-                            }
-
-                        }
-                    }
-                }
-            }
+//            if (isset(request()->files)) {
+//                foreach (request()->files as $file) {
+//                    foreach ($file as $key => $fl) {
+//
+//                        if (request()->hasFile("files.$key")) {
+//                            $file = request()->file("files.$key");
+//                            if(isset(request()->file_id[$key])){
+//
+//                            $currentFile = \App\Domain\Admin\Files\Models\File::query()->find(request()->file_id[$key]);
+//                            }else{
+//                                $currentFile=null;
+//                            }
+//                            if ($currentFile != null) {
+//
+//                                File::delete('storage/files/lessons/' . $currentFile->filename);
+//                                $filename = Str::random(6) . '_' . time() . '.' . $file->getClientOriginalExtension();
+//                                $file->storeAs('public/files/lessons', $filename);
+//                                $path = url('storage/files/lessons/' . $filename);
+//                                $currentFile->filename = $filename;
+//                                $currentFile->path = $path;
+//                                $currentFile->update();
+//                            } else {
+//                                $filename = Str::random(6) . '_' . time() . '.' . $file->getClientOriginalExtension();
+//                                $file->storeAs('public/files/lessons', $filename);
+//                                $path = url('storage/files/lessons/' . $filename);
+//
+//                                $lesson->files()->create([
+//                                    'filename' => $filename,
+//                                    'path' => $path,
+//                                    'type' => 'lesson',
+//                                ]);
+//                            }
+//
+//                        }
+//                    }
+//                }
+//            }
 
             $lesson->load('course', 'course_plan', 'course_subject');
 

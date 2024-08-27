@@ -26,23 +26,23 @@ class StoreLessonAction
             $lesson->date = $dto->getDate();
             $lesson->save();
 
-            $types = ['lesson', 'video', 'electron', 'crossword'];
-
-            foreach ($types as $key => $type) {
-                if (request()->hasFile("files.$key")) {
-                    $file = request()->file("files.$key");
-
-                    $filename = Str::random(6) . '_' . time() . '.' . $file->getClientOriginalExtension();
-                    $file->storeAs('public/files/lessons', $filename);
-                    $path = url('storage/files/lessons/' . $filename);
-
-                    $lesson->files()->create([
-                        'filename' => $filename,
-                        'path' => $path,
-                        'type' => $type,
-                    ]);
-                }
-            }
+//            $types = ['lesson', 'video', 'electron', 'crossword'];
+//
+//            foreach ($types as $key => $type) {
+//                if (request()->hasFile("files.$key")) {
+//                    $file = request()->file("files.$key");
+//
+//                    $filename = Str::random(6) . '_' . time() . '.' . $file->getClientOriginalExtension();
+//                    $file->storeAs('public/files/lessons', $filename);
+//                    $path = url('storage/files/lessons/' . $filename);
+//
+//                    $lesson->files()->create([
+//                        'filename' => $filename,
+//                        'path' => $path,
+//                        'type' => $type,
+//                    ]);
+//                }
+//            }
             $lesson->load('course','course_plan','course_subject');
         } catch (Exception $exception) {
             DB::rollBack();

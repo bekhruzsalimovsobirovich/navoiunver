@@ -46,6 +46,8 @@ Route::group(['prefix' => 'admin','middleware' => ['auth:sanctum','role:superadm
     Route::get('course/all',[CourseController::class,'getAll']);
     Route::get('users',[UserController::class,'index']);
 
+    Route::post('/updateOrCreate/file/lesson/{lesson_id}',[LessonController::class,'createFileAndUpdate']);
+
     Route::get('questions/with/answers/{control_id}/control',[QuestionAnswerController::class,'index']);
     Route::post('questions/with/answers',[QuestionAnswerController::class,'store']);
     Route::post('questions/with/answers/update',[QuestionAnswerController::class,'update']);

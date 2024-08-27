@@ -26,7 +26,7 @@ class StoreLessonRequest extends FormRequest
             'course_plan_id' => 'required',
             'course_subject_id' => 'required',
             'date' => 'required',
-            'files.*' => 'sometimes|file|mimes:jpg,jpeg,png,pdf,docx,mp4,mpeg,avi,zip,rar|max:204800',
+//            'files.*' => 'sometimes|file|mimes:jpg,jpeg,png,pdf,docx,mp4,mpeg,avi,zip,rar|max:204800',
         ];
     }
 }

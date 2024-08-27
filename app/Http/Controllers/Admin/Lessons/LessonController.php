@@ -16,6 +16,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class LessonController extends Controller
 {
@@ -101,4 +102,56 @@ class LessonController extends Controller
 
         return $this->successResponse('Status updated successfully.');
     }
+
+
+    public function createFileAndUpdate(Request $request, $lessonId)
+    {
+        $lesson = Lesson::findOrFail($lessonId);
+
+        // Get the files from the request
+        $filesData = $request->file('files'); // Assuming 'files' is an array of uploaded files
+//        dd($request->all()['files']);
+        // Loop through each file
+        foreach ($request->all()['files'] as $fileData) {
+            $fileId = $fileData['id'] ?? null; // Existing file id, if any
+//            dd($fileId);
+            // Check if it's an update or a new file
+            if ($fileId) {
+                // Update existing file
+                $file =  \App\Domain\Admin\Files\Models\File::find($fileId);
+                if ($file && $file->fileable_id == $lesson->id && $file->fileable_type == Lesson::class) {
+                    // Handle file upload if a new file is provided
+                    if (isset($fileData['file'])) {
+                        File::delete('storage/files/lessons/' . $file->filename);
+                        $filename = Str::random(6) . '_' . time() . '.' . $fileData['file']->getClientOriginalExtension();
+                        $fileData['file']->storeAs('public/files/lessons', $filename);
+                        $path = url('storage/files/lessons/' . $filename);
+                        $file->update([
+                            'filename' => $filename,
+                            'path' => $path,
+                            'type' => $fileData['type'],
+                        ]);
+                    } else {
+                        // Update type or other details without changing the file
+                        $file->update([
+                            'type' => $fileData['type'],
+                        ]);
+                    }
+                }
+            } else {
+                // Create a new file
+                $filename = Str::random(6) . '_' . time() . '.' . $fileData['file']->getClientOriginalExtension();
+                $fileData['file']->storeAs('public/files/lessons', $filename);
+                $path = url('storage/files/lessons/' . $filename);
+                $lesson->files()->create([
+                    'filename' => $filename,
+                    'path' => $path,
+                    'type' => $fileData['type'],
+                ]);
+            }
+        }
+
+        return response()->json(['message' => 'Files saved successfully.']);
+    }
+
 }
