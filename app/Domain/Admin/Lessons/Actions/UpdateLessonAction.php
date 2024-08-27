@@ -34,7 +34,12 @@ class UpdateLessonAction
 
                         if (request()->hasFile("files.$key")) {
                             $file = request()->file("files.$key");
+                            if(isset(request()->file_id[$key])){
+
                             $currentFile = \App\Domain\Admin\Files\Models\File::query()->find(request()->file_id[$key]);
+                            }else{
+                                $currentFile=null;
+                            }
                             if ($currentFile != null) {
 
                                 File::delete('storage/files/lessons/' . $currentFile->filename);
