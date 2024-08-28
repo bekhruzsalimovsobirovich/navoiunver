@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\Lessons\LessonController;
 use App\Http\Controllers\Admin\QuestionsAnswers\QuestionAnswerController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Users\Lesson\LessonUserController;
+use App\Http\Controllers\Users\Results\ResultController;
 use App\Http\Controllers\Users\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/login',[AuthController::class,'login']);
 Route::post('/register',[AuthController::class,'store']);
 
+Route::get('controls',[ControlController::class,'index']);
+Route::get('questions/with/answers/{control_id}/control',[QuestionAnswerController::class,'index']);
 
 Route::group(['prefix' => 'admin','middleware' => ['auth:sanctum','role:superadmin']], function (){
     Route::apiResource('courses',CourseController::class);
@@ -48,7 +51,6 @@ Route::group(['prefix' => 'admin','middleware' => ['auth:sanctum','role:superadm
 
     Route::post('/updateOrCreate/file/lesson/{lesson_id}',[LessonController::class,'createFileAndUpdate']);
 
-    Route::get('questions/with/answers/{control_id}/control',[QuestionAnswerController::class,'index']);
     Route::post('questions/with/answers',[QuestionAnswerController::class,'store']);
     Route::post('questions/with/answers/update',[QuestionAnswerController::class,'update']);
     Route::delete('questions/with/answers/delete/{question}',[QuestionAnswerController::class,'destroy']);
@@ -56,4 +58,5 @@ Route::group(['prefix' => 'admin','middleware' => ['auth:sanctum','role:superadm
 
 Route::group(['prefix' => 'student','middleware' => ['auth:sanctum','role:user']], function (){
     Route::get('lesson/{lesson}/read',[LessonUserController::class,'store']);
+    Route::post('/result/store',[ResultController::class,'store']);
 });

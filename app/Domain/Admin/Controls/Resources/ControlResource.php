@@ -17,7 +17,7 @@ class ControlResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'path' => $this->files->isNotEmpty() ? $this->files->first()->path : null,
+            'path' => $this->files->isNotEmpty() ? $this->files->first()->path : null
         ];
     }
 }

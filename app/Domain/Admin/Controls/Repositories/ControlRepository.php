@@ -15,7 +15,6 @@ class ControlRepository
     public function paginate(): LengthAwarePaginator
     {
         return Control::query()
-            ->with('files')
             ->orderByDesc('id')
             ->paginate();
     }
