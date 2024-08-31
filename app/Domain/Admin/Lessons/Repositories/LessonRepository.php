@@ -19,13 +19,13 @@ class LessonRepository
 
     /**
      * @param $course_id
-     * @return LengthAwarePaginator
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder[]
      */
-    public function getLessonCourse($course_id): LengthAwarePaginator
+    public function getLessonCourse($course_id): array|\Illuminate\Database\Eloquent\Collection
     {
         return Lesson::query()
             ->where('course_id',$course_id)
             ->orderByDesc('id')
-            ->paginate();
+            ->get();
     }
 }
