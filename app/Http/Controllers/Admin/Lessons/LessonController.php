@@ -41,6 +41,11 @@ class LessonController extends Controller
         return LessonResource::collection($this->lessons->paginate());
     }
 
+    public function getLessonCourse($course_id)
+    {
+        return LessonResource::collection($this->lessons->getLessonCourse($course_id));
+    }
+
     /**
      * Store a newly created resource in storage.
      */

@@ -46,7 +46,6 @@ Route::group(['prefix' => 'admin','middleware' => ['auth:sanctum','role:superadm
     Route::get('find/course_plan/with/{course_id}/course',[CoursePlanController::class,'findCoursePlanWithCourseId']);
     Route::get('find/course_subject/with/{course_id}/course/{course_plan_id}/course_plan',[CourseSubjectController::class,'findCourseSubjectWithCourseIdCoursePlanId']);
     Route::get('course_subject/all',[CourseSubjectController::class,'getAll']);
-    Route::get('course/all',[CourseController::class,'getAll']);
     Route::get('users',[UserController::class,'index']);
 
     Route::post('/updateOrCreate/file/lesson/{lesson_id}',[LessonController::class,'createFileAndUpdate']);
@@ -57,6 +56,8 @@ Route::group(['prefix' => 'admin','middleware' => ['auth:sanctum','role:superadm
 });
 
 Route::group(['prefix' => 'student','middleware' => ['auth:sanctum','role:user']], function (){
+    Route::get('course/all',[CourseController::class,'getAll']);
     Route::get('lesson/{lesson}/read',[LessonUserController::class,'store']);
+    Route::get('course/{course_id}/lesson',[LessonController::class,'getLessonCourse']);
     Route::post('/result/store',[ResultController::class,'store']);
 });
