@@ -43,7 +43,9 @@ class LessonController extends Controller
 
     public function getLessonCourse($course_id)
     {
-        return LessonResource::collection($this->lessons->getLessonCourse($course_id));
+//        dd($this->lessons->getLessonCourse($course_id));
+        return $this->lessons->getLessonCourse($course_id);
+//        return LessonResource::collection($this->lessons->getLessonCourse($course_id));
     }
 
     /**

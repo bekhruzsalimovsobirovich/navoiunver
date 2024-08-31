@@ -19,13 +19,14 @@ class LessonRepository
 
     /**
      * @param $course_id
-     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder[]
+     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection
      */
-    public function getLessonCourse($course_id): array|\Illuminate\Database\Eloquent\Collection
+    public function getLessonCourse($course_id)
     {
         return Lesson::query()
+            ->with('course','course_plan','course_subject')
             ->where('course_id',$course_id)
-            ->orderByDesc('id')
-            ->get();
+            ->get()
+            ->groupBy('course_plan.name');
     }
 }
