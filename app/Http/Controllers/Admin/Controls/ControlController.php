@@ -37,11 +37,11 @@ class ControlController extends Controller
     }
 
     /**
-     * @return JsonResponse
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function getAll()
     {
-        return $this->successResponse('ok', $this->controls->getAll());
+        return ControlResource::collection($this->controls->getAll());
     }
 
     /**
