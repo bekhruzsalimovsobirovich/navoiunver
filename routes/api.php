@@ -40,7 +40,6 @@ Route::group(['prefix' => 'admin','middleware' => ['auth:sanctum','role:superadm
     Route::apiResource('course_subjects',CourseSubjectController::class);
     Route::apiResource('lessons',LessonController::class);
     Route::apiResource('controls',ControlController::class);
-    Route::get('control/all',[ControlController::class,'getAll']);
     Route::get('lesson/update/status/{lesson}',[LessonController::class,'updateStatus']);
     Route::get('course_plan/all',[CoursePlanController::class,'getAll']);
     Route::get('find/course_plan/with/{course_id}/course',[CoursePlanController::class,'findCoursePlanWithCourseId']);
@@ -56,6 +55,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth:sanctum','role:superadm
 });
 
 Route::group(['prefix' => 'student','middleware' => ['auth:sanctum','role:user']], function (){
+    Route::get('control/all',[ControlController::class,'getAll']);
     Route::get('course/all',[CourseController::class,'getAll']);
     Route::get('lesson/{lesson}/read',[LessonUserController::class,'store']);
     Route::get('course/{course_id}/lesson',[LessonController::class,'getLessonCourse']);
