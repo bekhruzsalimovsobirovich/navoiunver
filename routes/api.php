@@ -54,9 +54,12 @@ Route::group(['prefix' => 'admin','middleware' => ['auth:sanctum','role:superadm
     Route::delete('questions/with/answers/delete/{question}',[QuestionAnswerController::class,'destroy']);
 });
 
-Route::group(['prefix' => 'student','middleware' => ['auth:sanctum','role:user']], function (){
+Route::group(['middleware' => ['auth:sanctum','role:user|superadmin']], function (){
     Route::get('control/all',[ControlController::class,'getAll']);
     Route::get('course/all',[CourseController::class,'getAll']);
+});
+
+Route::group(['prefix' => 'student','middleware' => ['auth:sanctum','role:user']], function (){
     Route::get('lesson/{lesson}/read',[LessonUserController::class,'store']);
     Route::get('course/{course_id}/lesson',[LessonController::class,'getLessonCourse']);
     Route::post('/result/store',[ResultController::class,'store']);
