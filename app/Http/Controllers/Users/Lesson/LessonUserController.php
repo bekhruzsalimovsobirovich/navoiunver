@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Users\Lesson;
 
 use App\Domain\Admin\Lessons\Models\Lesson;
 use App\Http\Controllers\Controller;
+use App\Models\LessonUser;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,7 +12,30 @@ class LessonUserController extends Controller
 {
     public function index()
     {
-//        $lessons =
+        $lessons = Lesson::query()
+            ->with(['lesson_users' => function ($query) {
+                $query->where('user_id', Auth::id());
+            }, 'course_plan'])  // Eager load course_plan to group later
+            ->get()
+            ->groupBy('course_plan.name');
+
+        $data = [];
+
+        foreach ($lessons as $coursePlanName => $lessonsGroup) {
+            $total = count($lessonsGroup);
+            $count_read = $lessonsGroup->filter(function ($lesson) {
+                return isset($lesson->lesson_users->status) && $lesson->lesson_users->status == 1;
+            })->count();
+
+            $data[$coursePlanName] = [
+                'total' => $total,
+                'read' => $count_read,
+                'unread' => $total - $count_read,
+                'percent' => round(($count_read * 100) / $total,1)
+            ];
+        }
+
+        return $this->successResponse('User Subject calculate', $data);
     }
 
     /**

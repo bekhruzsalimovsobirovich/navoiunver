@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Lesson extends Model
 {
@@ -41,5 +42,10 @@ class Lesson extends Model
     public function lesson_user(): BelongsToMany
     {
         return $this->belongsToMany(LessonUser::class,'lesson_user','lesson_id','user_id');
+    }
+
+    public function lesson_users(): BelongsTo
+    {
+        return $this->belongsTo(LessonUser::class,'id','lesson_id');
     }
 }

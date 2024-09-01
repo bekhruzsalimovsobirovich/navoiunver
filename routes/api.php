@@ -63,4 +63,6 @@ Route::group(['prefix' => 'student','middleware' => ['auth:sanctum','role:user']
     Route::get('lesson/{lesson}/read',[LessonUserController::class,'store']);
     Route::get('course/{course_id}/lesson',[LessonController::class,'getLessonCourse']);
     Route::post('/result/store',[ResultController::class,'store']);
+
+    Route::get('/lesson/calc',[LessonUserController::class,'index']);
 });
