@@ -24,7 +24,7 @@ class LessonRepository
     public function getLessonCourse($course_id)
     {
         return Lesson::query()
-            ->with('course','course_plan','course_subject')
+            ->with('course','course_plan','course_subject','files')
             ->where('course_id',$course_id)
             ->get()
             ->groupBy('course_plan.name');
