@@ -2,6 +2,7 @@
 
 namespace App\Domain\Admin\Lessons\Resources;
 
+use App\Http\Resources\CommentResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -22,6 +23,7 @@ class LessonResource extends JsonResource
             'date' => $this->date,
             'status' => $this->status,
             'files' => $this->files,
+            'comments' => CommentResource::collection($this->comments)
         ];
     }
 }

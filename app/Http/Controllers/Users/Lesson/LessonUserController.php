@@ -6,6 +6,7 @@ use App\Domain\Admin\Lessons\Models\Lesson;
 use App\Http\Controllers\Controller;
 use App\Models\LessonUser;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LessonUserController extends Controller
@@ -31,7 +32,7 @@ class LessonUserController extends Controller
                 'total' => $total,
                 'read' => $count_read,
                 'unread' => $total - $count_read,
-                'percent' => round(($count_read * 100) / $total,1)
+                'percent' => round(($count_read * 100) / $total, 1)
             ];
         }
 
@@ -51,5 +52,24 @@ class LessonUserController extends Controller
         }
 
         return $this->successResponse('User read this ' . $lesson->course_subject->name . ' course');
+    }
+
+    /**
+     * @param Request $request
+     * @param Lesson $lesson
+     * @return JsonResponse
+     */
+    public function storeComment(Request $request, Lesson $lesson)
+    {
+        $request->validate([
+            'text' => 'required'
+        ]);
+
+        $lesson->comments()->create([
+            'user_id' => Auth::id(),
+            'text' => $request['text'],
+        ]);
+
+        return $this->successResponse('Comment sended.');
     }
 }

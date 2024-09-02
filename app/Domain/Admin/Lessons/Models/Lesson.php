@@ -6,12 +6,14 @@ use App\Domain\Admin\CoursePlans\Models\CoursePlan;
 use App\Domain\Admin\Courses\Models\Course;
 use App\Domain\Admin\CourseSubjects\Models\CourseSubject;
 use App\Domain\Admin\Files\Models\File;
+use App\Models\Comment;
 use App\Models\LessonUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Lesson extends Model
 {
@@ -47,5 +49,13 @@ class Lesson extends Model
     public function lesson_users(): BelongsTo
     {
         return $this->belongsTo(LessonUser::class,'id','lesson_id');
+    }
+
+    /**
+     * @return MorphMany
+     */
+    public function comments(): MorphMany
+    {
+        return $this->morphMany(Comment::class, 'commentable');
     }
 }
