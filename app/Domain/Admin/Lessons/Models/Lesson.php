@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Support\Facades\Auth;
 
 class Lesson extends Model
 {
@@ -48,7 +49,7 @@ class Lesson extends Model
 
     public function lesson_users(): BelongsTo
     {
-        return $this->belongsTo(LessonUser::class,'id','lesson_id');
+        return $this->belongsTo(LessonUser::class,'id','lesson_id')->where('user_id',Auth::id());
     }
 
     /**
