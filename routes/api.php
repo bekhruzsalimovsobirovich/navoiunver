@@ -32,7 +32,6 @@ Route::post('/login',[AuthController::class,'login']);
 Route::post('/register',[AuthController::class,'store']);
 
 Route::get('controls',[ControlController::class,'index']);
-Route::get('questions/with/answers/{control_id}/control',[QuestionAnswerController::class,'index']);
 
 Route::group(['prefix' => 'admin','middleware' => ['auth:sanctum','role:superadmin']], function (){
     Route::apiResource('courses',CourseController::class);
@@ -57,6 +56,7 @@ Route::group(['prefix' => 'admin','middleware' => ['auth:sanctum','role:superadm
 Route::group(['middleware' => ['auth:sanctum','role:user|superadmin']], function (){
     Route::get('control/all',[ControlController::class,'getAll']);
     Route::get('course/all',[CourseController::class,'getAll']);
+    Route::get('questions/with/answers/{control_id}/control',[QuestionAnswerController::class,'index']);
 });
 
 Route::group(['prefix' => 'student','middleware' => ['auth:sanctum','role:user']], function (){
