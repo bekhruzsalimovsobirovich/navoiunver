@@ -75,9 +75,9 @@ class LessonUserController extends Controller
         return $this->successResponse('Comment sended.');
     }
 
-    public function comments()
+    public function comments($comment_id)
     {
-        $comments = CommentResource::collection(Comment::query()->get());
+        $comments = CommentResource::collection(Comment::query()->where('commentable_id',$comment_id)->get());
         return $this->successResponse('',$comments);
     }
 }
