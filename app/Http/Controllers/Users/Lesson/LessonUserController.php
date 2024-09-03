@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Users\Lesson;
 
 use App\Domain\Admin\Lessons\Models\Lesson;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CommentResource;
+use App\Models\Comment;
 use App\Models\LessonUser;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -71,5 +73,11 @@ class LessonUserController extends Controller
         ]);
 
         return $this->successResponse('Comment sended.');
+    }
+
+    public function comments()
+    {
+        $comments = CommentResource::collection(Comment::query()->get());
+        return $this->successResponse('',$comments);
     }
 }

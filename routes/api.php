@@ -60,9 +60,10 @@ Route::group(['middleware' => ['auth:sanctum','role:user|superadmin']], function
 });
 
 Route::group(['prefix' => 'student','middleware' => ['auth:sanctum','role:user']], function (){
-    Route::get('lesson/{lesson}/read',[LessonUserController::class,'store']);
+    Route::post('lesson/{lesson}/read',[LessonUserController::class,'store']);
     Route::get('course/{course_id}/lesson',[LessonController::class,'getLessonCourse']);
     Route::post('comment/store/{lesson}/lesson',[LessonUserController::class,'storeComment']);
+    Route::get('comments',[LessonUserController::class,'comments']);
     Route::post('/result/store',[ResultController::class,'store']);
 
     Route::get('/lesson/calc',[LessonUserController::class,'index']);
