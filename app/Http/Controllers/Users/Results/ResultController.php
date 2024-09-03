@@ -39,7 +39,7 @@ class ResultController extends Controller
         return $this->successResponse('',$this->result($results));
     }
 
-    public function result()
+    public function results()
     {
         $results = Result::query()
             ->where('user_id',Auth::id())

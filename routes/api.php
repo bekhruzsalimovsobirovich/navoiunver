@@ -66,7 +66,7 @@ Route::group(['prefix' => 'student','middleware' => ['auth:sanctum','role:user']
     Route::get('comments/{comment_id}',[LessonUserController::class,'comments']);
     Route::post('/result/store',[ResultController::class,'store']);
     Route::get('/results',[ResultController::class,'index']);
-    Route::get('/results/answer',[ResultController::class,'result']);
+    Route::get('/results/answer',[ResultController::class,'results']);
 
     Route::get('/lesson/calc',[LessonUserController::class,'index']);
 });
