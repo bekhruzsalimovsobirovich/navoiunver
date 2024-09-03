@@ -8,6 +8,7 @@ use App\Domain\Users\Results\Models\Result;
 use App\Domain\Users\Results\Requests\StoreResultRequest;
 use App\Http\Controllers\Controller;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -26,6 +27,9 @@ class ResultController extends Controller
         }
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function index()
     {
         $results = Result::query()
@@ -33,5 +37,15 @@ class ResultController extends Controller
             ->get();
 
         return $this->successResponse('',$this->result($results));
+    }
+
+    public function result()
+    {
+        $results = Result::query()
+            ->where('user_id',Auth::id())
+            ->get()
+            ->groupBy('question.status');
+
+        return $this->successResponse('',$results);
     }
 }
