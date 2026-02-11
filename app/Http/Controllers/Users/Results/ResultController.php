@@ -39,10 +39,17 @@ class ResultController extends Controller
         return $this->successResponse('',$this->result($results));
     }
 
-    public function results()
+    public function results(Request $request)
     {
+        $request->validate([
+            'control_id' => 'required|exists:controls,id',
+        ],[
+            'control_id.required' => 'Control ID kiritilishi shart.',
+            'control_id.exists'   => 'Kiritilgan Control ID mavjud emas.',
+        ]);
         $results = Result::query()
             ->where('user_id',Auth::id())
+            ->where('control_id',$request->control_id)
             ->get()
             ->groupBy('question.status');
 
